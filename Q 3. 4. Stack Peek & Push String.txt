@@ -1,0 +1,93 @@
+package dsa.day2.practice;
+
+public class StackTest 
+{
+
+	public static void main(String[] args) 
+	{
+		MyStack stringStack = new MyStack(5);
+		
+		
+		stringStack.push("Shubham");
+		stringStack.push("Patil");
+		stringStack.push("From");
+		stringStack.push("AIT");
+		stringStack.push("YCP");
+		//stringStack.push("Mumbai");
+
+		System.out.println("--------------------------------------------------");
+		
+		System.out.println("=> element of the top : "+stringStack.peek());
+		
+		System.out.println("--------------------------------------------------");
+
+		stringStack.pop();
+		stringStack.pop();
+		
+        System.out.println("=> element of the top : "+stringStack.peek());
+		
+		stringStack.pop();
+		stringStack.pop();
+		stringStack.pop();
+		
+		//stringStack.pop();
+		//System.out.println(stringStack.pop());
+	}
+}
+class MyStack
+{
+	int index = -1;
+	int size;
+	String array [];
+		
+	MyStack(int size) 
+	{
+		
+		this.size = size;
+		array= new String [size];
+		System.out.println("Mystack created with "+size+" Strings");
+	}
+	
+	void push(String sentence) throws MyStackOverFlowException
+	{
+		
+		if (index > size-2)
+		{
+			System.out.println(index);
+			throw new MyStackOverFlowException("Stack size is overflown.....");
+		}
+		array [++index] = sentence;
+		System.out.println("Pushing ("+sentence+ ") to the Stack......"+index);
+	}
+	
+	String pop() throws MyStackEmptyException
+	{
+		
+		if (index < 0)
+		{
+			System.out.println(index);
+			throw new MyStackEmptyException("Stack is empty.....");
+		}
+		System.out.println("Popping item from the Stack......"+array[index]);
+		return array [ index--];
+	}
+	String peek()
+	{
+		return array [index];
+	}
+		
+}
+class MyStackOverFlowException extends RuntimeException
+{
+	MyStackOverFlowException (String str)
+	{
+		super(str);
+	}
+}
+class MyStackEmptyException extends RuntimeException
+{
+	MyStackEmptyException (String str)
+	{
+		super(str);
+	}
+}

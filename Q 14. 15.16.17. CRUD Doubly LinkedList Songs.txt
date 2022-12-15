@@ -1,0 +1,320 @@
+package dsa.day4.practice;
+
+public class DoublyLinkedListTest 
+{
+
+	public static void main(String[] args) 
+	{
+		MySong ms1 = new MySong("My Heart Will Go On","Titanic","Celine D",1997);
+		MySong ms2 = new MySong("Zhingat","Sairat","Ajay Atul",2016);
+		MySong ms3 = new MySong("Tanhayee","Dil Chahta Hai","Sonu Nigam",2001);
+		MySong ms4 = new MySong("Tadipar","Tadipar","MC",2020);
+		MySong ms5 = new MySong("Just do it","CDAC YCP","MySelf",2022);
+
+		mySongList MySongs = new mySongList();
+				
+		MySongs.addSong(ms1);
+		MySongs.addSong(ms2);
+		MySongs.addSong(ms3);
+		MySongs.addSong(ms4);
+		
+		MySongs.showAllSongs();
+		
+		MySongs.insertInBetween("Zhingat", ms5);
+		MySongs.showAllSongs();
+		
+		MySongs.deleteSongByName("Tanhayee");
+		MySongs.showAllSongs();
+		
+		MySongs.searchSongByName("Zhingat");
+		MySongs.searchSong(ms4);
+		
+		MySongs.showSongsInReverse();
+
+	}
+
+}
+class MySong
+{
+	String title;
+	String album;
+	String artist;
+	int year;
+
+	MySong prev;
+	MySong next;
+	public MySong(String title, String album, String artist, int year) 
+	{
+		super();
+		this.title = title;
+		this.album = album;
+		this.artist = artist;
+		this.year = year;
+	}
+	@Override
+	public String toString() 
+	{
+		return "\nMySong [title=" + title + ", album=" + album + ", artist=" + artist + ", year=" + year + "]";
+	}
+}
+class mySongList
+{
+	MySong start = null, ptr;
+	
+	void addSong(MySong newSong) 
+	{
+		
+		if(start==null) 
+		{
+			System.out.println("\nJuke box is empty....");
+			start = newSong;
+			start.prev = null;
+			start.next = null;
+			System.out.println("\nAdding FIRST Song.....");
+		}
+		else if (start.next == null )
+		{
+			start.next = newSong;
+			newSong.prev = start;
+			newSong.next = null;
+			System.out.println("\nADDED the SECOND Song.....");
+
+		}
+		else {
+			
+			ptr = start.next; // 200
+			
+			while(ptr.next!=null) 
+			{ // 200!=null
+				ptr=ptr.next;
+			}
+			
+			ptr.next = newSong;
+			newSong.prev = ptr;
+			newSong.next = null;
+			System.out.println("\nADDED the INTERNAL Song.....");
+
+		}
+	}
+	
+	void showAllSongs() 
+	{
+		if(start==null) 
+		{
+			System.out.println("\nJuke box is empty....");
+		}
+		else {
+			
+			ptr = start;
+			System.out.println("\nDATA : ");
+			while(ptr!=null) 
+			{
+				System.out.println(" "+ptr);
+				System.out.println("------------------");
+				ptr=ptr.next;
+			}
+		}
+	}
+	void showSongsInReverse() 
+	{
+		if(start==null) 
+		{
+			System.out.println("\nJuke box is empty....");
+		}
+		else {
+			
+			ptr = start;
+			System.out.println("\nDATA : ");
+			while(ptr!=null) 
+			{
+				if(ptr.next==null)
+					break;
+				ptr=ptr.next;
+			}
+			while(ptr!=null)
+			{
+				System.out.println(" "+ptr);
+				System.out.println("------------------");
+				ptr=ptr.prev;
+			}
+		}
+	}
+	void deleteLastSong()
+	{
+		MySong secondlast = null;
+		if(start==null) 
+		{
+			System.out.println("\nNo song to delete....List is empty....");
+			
+		}
+		else {
+			
+			ptr = start; 			
+			while(ptr!=null) 
+			{ 
+			    secondlast = ptr;
+				ptr=ptr.next;
+			}
+			
+			secondlast.next=null;
+			ptr.prev = null;
+			System.out.println("\nRemoved last song from list...");
+
+		}
+	}
+	
+	void deleteSongByName(String name )
+	{
+		boolean found = false;
+		MySong secondLast = null,nodeNext;
+		
+		if(start==null) 
+		{
+			System.out.println("\nCannot delete....List is empty....");
+			
+		}
+		else {
+			
+			ptr = start;
+			nodeNext = start.next;
+			
+			while(ptr!=null) 
+			{ 
+				if(ptr.title.equals(name))
+				{
+					found =true;
+					break;
+				}
+			    secondLast = ptr;
+			    nodeNext = nodeNext.next;
+				ptr=ptr.next;
+			}
+			if (found!=true)
+			{
+				System.out.println("\nNo such song with name "+name+"...Cannot delete.....");
+			}
+			else {
+				secondLast.next = ptr.next;
+				nodeNext.prev = secondLast;
+				ptr = null;
+     			System.out.println("\n# Removed song "+name+" from list...");
+			}
+
+		}
+	}
+	
+	void searchSong(MySong songToSearch)
+	{
+		boolean found = false;
+		//MySong secondLast = null,nodeNext;
+		
+		if(start==null) 
+		{
+			System.out.println("\nSorry, List is empty....");
+			
+		}
+		else {
+			
+			ptr = start;
+			//nodeNext = start.next;
+			
+			while(ptr!=null) 
+			{ 
+				if(ptr.equals(songToSearch))
+				{
+					System.out.println("\nFound Song....");
+					found =true;
+					break;
+				}
+			    //secondLast = ptr;
+			    //nodeNext = nodeNext.next;
+				ptr=ptr.next;
+			}
+			if (found!=true)
+			{
+				System.out.println("\nNo such song exist inside list......");
+			}
+			else {
+				//secondLast.next = ptr.next;
+				//nodeNext.prev = secondLast;
+				
+     			System.out.println("\nSong details : \n"+ptr);
+			}
+
+		}
+	}
+	void searchSongByName(String name )
+	{
+		boolean found = false;
+		MySong secondLast = null,nodeNext;
+		
+		if(start==null) 
+		{
+			System.out.println("\nSorry, List is empty....");
+			
+		}
+		else {
+			
+			ptr = start;
+			//nodeNext = start.next;
+			
+			while(ptr!=null) 
+			{ 
+				if(ptr.title.equals(name))
+				{
+					found =true;
+					System.out.println("\nFound song....");
+					break;
+				}
+			    //secondLast = ptr;
+			    //nodeNext = nodeNext.next;
+				ptr=ptr.next;
+			}
+			if (found!=true)
+			{
+				System.out.println("\nNo such song with name "+name+".......");
+			}
+			else {
+				//secondLast.next = ptr.next;
+				//nodeNext.prev = secondLast;
+				
+     			System.out.println(name+" Song details : \n"+ptr);
+			}
+
+		}
+	}
+	void insertInBetween(String name, MySong newSong)
+	{
+		boolean found = false;
+		if(start==null) 
+		{
+			System.out.println("\nJuke box is empty....");
+		}
+		else {
+			ptr = start;
+			while(ptr!=null) 
+			{
+				if(ptr.title.equals(name))
+				{
+					found = true;
+					break;
+				}
+				ptr=ptr.next;
+			}
+			if (found!=true)
+			{
+				System.out.println("\nSorry, No such song "+name);
+			}else
+			{
+				newSong.next = ptr.next;
+				ptr.next = newSong;
+				newSong.prev = ptr;
+				newSong.next.prev = newSong;
+				System.out.println("# "+newSong.title+" succucessfully added after song "+name);
+				
+			}
+		}
+	}
+}
+
+

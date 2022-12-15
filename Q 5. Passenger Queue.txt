@@ -1,0 +1,77 @@
+package dsa.day2.practice;
+
+public class QueueTest {
+
+	public static void main(String[] args) 
+	{
+		MyQueue passenger = new MyQueue(5);
+		
+		System.out.println("-------------------------------------");
+		
+		passenger.add("Shubham Patil");
+		passenger.add("Akash L");
+		passenger.add("Ashutosh B");
+		passenger.add("Akash G");
+		passenger.add("Rajeev S");
+		//passenger.add("Ankita S");
+		
+		System.out.println("-------------------------------------");
+		
+		passenger.remove();
+		passenger.remove();
+		passenger.remove();
+		passenger.remove();
+		passenger.remove();
+		//passenger.remove();
+    }
+
+}
+class MyQueue 
+{
+	int front= 0;
+	int index = 0;
+	int length;
+	String array[];
+	
+	MyQueue(int length)
+	{
+		this.length = length;
+		array = new String [length];
+	}
+	void add(String name) throws MyStackOverFlowException
+	{
+		if (index > length-1)
+		{
+			System.out.println("Overflow Exception at index "+ index);
+			throw new MyQueueOverFlowException("Queue size is overflow.....");
+		}
+		array [ index++ ] = name;
+		System.out.println("Adding "+name+" to Queue......"+(index-1));
+		
+	}
+	String remove() throws MyStackEmptyException
+	{
+		if (front == index)
+		{
+			System.out.println("Empty Exception at index "+ ++index);
+			throw new MyQueueEmptyException("Queue is empty.....");
+		}
+		System.out.println("Removing "+array[front]+" from the Queue......"+front);
+		return array [front++];
+	}
+	
+}
+class MyQueueOverFlowException extends RuntimeException
+{
+	MyQueueOverFlowException (String str)
+	{
+		super(str);
+	}
+}
+class MyQueueEmptyException extends RuntimeException
+{
+	MyQueueEmptyException (String str)
+	{
+		super(str);
+	}
+}
